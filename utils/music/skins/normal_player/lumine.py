@@ -92,7 +92,7 @@ class DefaultProgressbarSkin:
             config += f"\n┕ 🔐 Hạn chế"
 
         embed.add_field(
-            name=f"<:soundcloud:1140277420033843241> **{player.node.identifier}**",
+            name=f"<:soundcloud:1140277420033843241> Node: **{player.node.identifier}**",
             value=config,
             inline=True
         )
