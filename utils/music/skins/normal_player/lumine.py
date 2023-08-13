@@ -36,24 +36,24 @@ class DefaultProgressbarSkin:
         )
 
         embed.set_author(
-            name=f"{fix_characters(player.current.single_title, limit=24)}",
+            name=f"{fix_characters(player.current.single_title, limit=32)}",
             url=player.current.uri or player.current.search_uri,
             icon_url=music_source_image(player.current.info["sourceName"]) if not player.paused else "https://cdn.discordapp.com/emojis/1140220668110180352.png"
         )
 
         embed.set_thumbnail(url=player.current.thumb)
 
-        embed.description = f"<:author:1140220381320466452> <@{player.current.requester}> "
+        embed.description = f"> <:author:1140220381320466452> <@{player.current.requester}>"
 
         if player.current.is_stream:
-            embed.description += f"| 🔴 **LIVESTREAM**"
+            embed.description += f"\n> 🔴 **LIVESTREAM**"
         else:
-            embed.description += f"| 🕘 `{player.position} / {player.current.duration}`"
+            embed.description += f"\n> 🕘 `{time_format(player.position)} / {time_format(player.current.duration)}`"
 
         if player.command_log:
-            embed.description += f"\n\n> <:recent:1140220838470242355> {player.command_log}"
+            embed.description += f"\n>\n> <:recent:1140220838470242355> {player.command_log}"
 
-        song_info = f"> {player.current.authors_md}"
+        song_info = f"> <:microphone:1140220507283791872> {player.current.authors_md}"
 
         if player.current.album_name:
             song_info += f"\n> <:library:1140220586640019556> [`{fix_characters(player.current.album_name, limit=16)}`]({player.current.album_url})"
@@ -79,9 +79,9 @@ class DefaultProgressbarSkin:
             config += f"\n> <:nightcore:1140227024108130314> Nightcore"
 
         if player.current.autoplay:
-            config += f"> <:disc:1140220627781943339> Tự động phát "
-            try: config += f" [`(ref.)`]({player.current.info['extra']['related']['uri']})"
-            except: config += " "
+            config += f"\n> <:disc:1140220627781943339> "
+            try: config += f" [Tự động phát]({player.current.info['extra']['related']['uri']})"
+            except: config += "Tự động phát"
         
         if player.keep_connected:
             txt += f"\n> <:247:1140230869643169863> 24/7"
@@ -130,7 +130,7 @@ class DefaultProgressbarSkin:
         data["components"] = [
             disnake.ui.Button(emoji="<:previous:1140221118926553098>", custom_id=PlayerControls.back),
             disnake.ui.Button(
-                emoji=f"{'<:play:1140220726327136427>' if not player.paused else '<:pause:1140220668110180352>'}",
+                emoji=f"{'<:play:1140220726327136427>' if player.paused else '<:pause:1140220668110180352>'}",
                 custom_id=PlayerControls.pause_resume
             ),
             disnake.ui.Button(emoji="<:next:1140220443098353695>", custom_id=PlayerControls.skip),
