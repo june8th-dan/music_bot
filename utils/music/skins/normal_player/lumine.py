@@ -53,7 +53,7 @@ class DefaultProgressbarSkin:
         if player.command_log:
             embed.description += f"\n>  \n> <:recent:1140220838470242355> {player.command_log}"
         
-        embed.description += f"\n \n"
+        embed.description += f"\n‎"
 
         song_info = f"┕ <:microphone:1140220507283791872> {player.current.authors_md}"
 
@@ -72,7 +72,7 @@ class DefaultProgressbarSkin:
             inline=True
         )
 
-        config = f"┕ <:host:1140221179920138330> {player.ping}ms\n> <:volume:1140221293950668820> {player.volume}%"
+        config = f"┕ <:host:1140221179920138330> {player.ping}ms\n┕ <:volume:1140221293950668820> {player.volume}%"
 
         if player.loop:
             config += f"\n┕ <:loop:1140220877401772092> `{'Bài hát' if player.loop == 'current' else 'Toàn bộ'}`"
@@ -86,10 +86,10 @@ class DefaultProgressbarSkin:
             except: config += "Tự động phát"
         
         if player.keep_connected:
-            txt += f"\n┕ <:247:1140230869643169863> 24/7"
+            config += f"\n┕ <:247:1140230869643169863> 24/7"
 
         elif player.restrict_mode:
-            txt += f"\n┕ 🔐 Hạn chế"
+            config += f"\n┕ 🔐 Hạn chế"
 
         embed.add_field(
             name=f"<:soundcloud:1140277420033843241> **{player.node.identifier}**",
