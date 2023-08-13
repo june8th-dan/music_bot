@@ -122,7 +122,10 @@ class DefaultProgressbarSkin:
                 if queue_duration:
                     embed_queue.description += f"\n`[⌛ ` <t:{int((disnake.utils.utcnow() + datetime.timedelta(milliseconds=(queue_duration + (player.current.duration if not player.current.is_stream else 0)) - player.position)).timestamp())}:R> `⌛]`"
 
-        data["embeds"] = [embed_queue, embed] if embed_queue else [embed]
+        try:
+            data["embeds"] = [embed_queue, embed]
+        except:
+            data["embeds"] = [embed]
 
         data["components"] = [
             disnake.ui.Button(emoji="<:previous:1140221118926553098>", custom_id=PlayerControls.back),
