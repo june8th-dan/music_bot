@@ -48,21 +48,23 @@ class DefaultProgressbarSkin:
         if player.current.is_stream:
             embed.description += f"\n> 🔴 **LIVESTREAM**"
         else:
-            embed.description += f"\n> 🕘 `{time_format(player.position)} / {time_format(player.current.duration)}`"
+            embed.description += f"\n> 🕘 {time_format(player.position)} / {time_format(player.current.duration)}"
 
         if player.command_log:
-            embed.description += f"\n>\n> <:recent:1140220838470242355> {player.command_log}"
+            embed.description += f"\n>  \n> <:recent:1140220838470242355> {player.command_log}"
+        
+        embed.description += f"\n \n"
 
         song_info = f"> <:microphone:1140220507283791872> {player.current.authors_md}"
 
         if player.current.album_name:
-            song_info += f"\n> <:library:1140220586640019556> [`{fix_characters(player.current.album_name, limit=16)}`]({player.current.album_url})"
+            song_info += f"\n> <:library:1140220586640019556> [{fix_characters(player.current.album_name, limit=20)}]({player.current.album_url})"
 
         if player.current.playlist_name:
-            song_info += f"\n> <:playlist:1140220773051678811> [`{fix_characters(player.current.playlist_name, limit=16)}`]({player.current.playlist_url})"
+            song_info += f"\n> <:playlist:1140220773051678811> [{fix_characters(player.current.playlist_name, limit=20)}]({player.current.playlist_url})"
 
         if (qlenght:=len(player.queue)) and not player.mini_queue_enabled:
-            song_info += f"\n> <a:raging:1117802405791268925> `{qlenght}` bài hát đang chờ"
+            song_info += f"\n> <a:raging:1117802405791268925> {qlenght} bài hát đang chờ"
 
         embed.add_field(
             name="<:music:1140220553135931392> **Thông tin**",
@@ -70,7 +72,7 @@ class DefaultProgressbarSkin:
             inline=True
         )
 
-        config = f"> <:volume:1140221293950668820> `{player.volume}%`"
+        config = f"> <:host:1140221179920138330> {player.ping}ms\n> <:volume:1140221293950668820> {player.volume}%"
 
         if player.loop:
             config += f"\n> <:loop:1140220877401772092> `{'Bài hát' if player.loop == 'current' else 'Toàn bộ'}`"
@@ -90,7 +92,7 @@ class DefaultProgressbarSkin:
             txt += f"\n> 🔐 Hạn chế"
 
         embed.add_field(
-            name=f"<:host:1140221179920138330> **{player.node.identifier}** [{player.ping}]",
+            name=f"<:soundcloud:1140277420033843241> **{player.node.identifier}**",
             value=config,
             inline=True
         )
