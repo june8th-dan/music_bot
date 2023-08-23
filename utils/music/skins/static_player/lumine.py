@@ -36,33 +36,35 @@ class DefaultProgressbarSkin:
         )
 
         embed.set_author(
-            name=f"{fix_characters(player.current.single_title, limit=24)}",
+            name=f"{fix_characters(player.current.single_title, limit=32)}",
             url=player.current.uri or player.current.search_uri,
             icon_url=music_source_image(player.current.info["sourceName"]) if not player.paused else "https://cdn.discordapp.com/emojis/1140220668110180352.png"
         )
 
         embed.set_thumbnail(url=player.current.thumb)
 
-        embed.description = f"<:author:1140220381320466452> <@{player.current.requester}> "
+        embed.description = f"> <:author:1140220381320466452> <@{player.current.requester}>"
 
         if player.current.is_stream:
-            embed.description += f"| 🔴 **LIVESTREAM**"
+            embed.description += f"\n> 🔴 **LIVESTREAM**"
         else:
-            embed.description += f"| 🕘 `{player.position} / {player.current.duration}`"
+            embed.description += f"\n> 🕘 {time_format(player.position)} / {time_format(player.current.duration)}"
 
         if player.command_log:
-            embed.description += f"\n\n> <:recent:1140220838470242355> {player.command_log}"
+            embed.description += f"\n>  \n> <:recent:1140220838470242355> {player.command_log}"
+        
+        embed.description += f"\n‎"
 
-        song_info = f"> {player.current.authors_md}"
+        song_info = f"> <:microphone:1140220507283791872> {player.current.authors_md}"
 
         if player.current.album_name:
-            song_info += f"\n> <:library:1140220586640019556> [`{fix_characters(player.current.album_name, limit=16)}`]({player.current.album_url})"
+            song_info += f"\n> <:library:1140220586640019556> [{fix_characters(player.current.album_name, limit=20)}]({player.current.album_url})"
 
         if player.current.playlist_name:
-            song_info += f"\n> <:playlist:1140220773051678811> [`{fix_characters(player.current.playlist_name, limit=16)}`]({player.current.playlist_url})"
+            song_info += f"\n> <:playlist:1140220773051678811> [{fix_characters(player.current.playlist_name, limit=20)}]({player.current.playlist_url})"
 
         if (qlenght:=len(player.queue)) and not player.mini_queue_enabled:
-            song_info += f"\n> <a:raging:1117802405791268925> `{qlenght}` bài hát đang chờ"
+            song_info += f"\n> <:library:1140220586640019556> {qlenght} bài hát đang chờ"
 
         embed.add_field(
             name="<:music:1140220553135931392> **Thông tin**",
@@ -70,7 +72,7 @@ class DefaultProgressbarSkin:
             inline=True
         )
 
-        config = f"> <:volume:1140221293950668820> `{player.volume}%`"
+        config = f"> <:host:1140221179920138330> {player.ping}ms\n> <:volume:1140221293950668820> {player.volume}%"
 
         if player.loop:
             config += f"\n> <:loop:1140220877401772092> `{'Bài hát' if player.loop == 'current' else 'Toàn bộ'}`"
@@ -79,18 +81,18 @@ class DefaultProgressbarSkin:
             config += f"\n> <:nightcore:1140227024108130314> Nightcore"
 
         if player.current.autoplay:
-            config += f"> <:disc:1140220627781943339> Tự động phát "
-            try: config += f" [`(ref.)`]({player.current.info['extra']['related']['uri']})"
-            except: config += " "
+            config += f"\n> <:disc:1140220627781943339> "
+            try: config += f" [Tự động phát]({player.current.info['extra']['related']['uri']})"
+            except: config += "Tự động phát"
         
         if player.keep_connected:
-            txt += f"\n> <:247:1140230869643169863> 24/7"
+            config += f"\n> <:247:1140230869643169863> 24/7"
 
         elif player.restrict_mode:
-            txt += f"\n> 🔐 Hạn chế"
+            config += f"\n> 🔐 Hạn chế"
 
         embed.add_field(
-            name=f"<:host:1140221179920138330> **{player.node.identifier}** [{player.ping}]",
+            name=f"<:soundcloud:1140277420033843241> Node: **{player.node.identifier}**",
             value=config,
             inline=True
         )
@@ -122,12 +124,15 @@ class DefaultProgressbarSkin:
                 if queue_duration:
                     embed_queue.description += f"\n`[⌛ ` <t:{int((disnake.utils.utcnow() + datetime.timedelta(milliseconds=(queue_duration + (player.current.duration if not player.current.is_stream else 0)) - player.position)).timestamp())}:R> `⌛]`"
 
-        data["embeds"] = [embed_queue, embed] if embed_queue else [embed]
+        try:
+            data["embeds"] = [embed_queue, embed]
+        except:
+            data["embeds"] = [embed]
 
         data["components"] = [
             disnake.ui.Button(emoji="<:previous:1140221118926553098>", custom_id=PlayerControls.back),
             disnake.ui.Button(
-                emoji=f"{'<:play:1140220726327136427>' if not player.paused else '<:pause:1140220668110180352>'}",
+                emoji=f"{'<:play:1140220726327136427>' if player.paused else '<:pause:1140220668110180352>'}",
                 custom_id=PlayerControls.pause_resume
             ),
             disnake.ui.Button(emoji="<:next:1140220443098353695>", custom_id=PlayerControls.skip),

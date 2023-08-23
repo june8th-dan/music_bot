@@ -55,16 +55,16 @@ class DefaultProgressbarSkin:
         
         embed.description += f"\n‎"
 
-        song_info = f"┕ <:microphone:1140220507283791872> {player.current.authors_md}"
+        song_info = f"> <:microphone:1140220507283791872> {player.current.authors_md}"
 
         if player.current.album_name:
-            song_info += f"\n┕ <:library:1140220586640019556> [{fix_characters(player.current.album_name, limit=20)}]({player.current.album_url})"
+            song_info += f"\n> <:library:1140220586640019556> [{fix_characters(player.current.album_name, limit=20)}]({player.current.album_url})"
 
         if player.current.playlist_name:
-            song_info += f"\n┕ <:playlist:1140220773051678811> [{fix_characters(player.current.playlist_name, limit=20)}]({player.current.playlist_url})"
+            song_info += f"\n> <:playlist:1140220773051678811> [{fix_characters(player.current.playlist_name, limit=20)}]({player.current.playlist_url})"
 
         if (qlenght:=len(player.queue)) and not player.mini_queue_enabled:
-            song_info += f"\n┕ <a:raging:1117802405791268925> {qlenght} bài hát đang chờ"
+            song_info += f"\n> <:library:1140220586640019556> {qlenght} bài hát đang chờ"
 
         embed.add_field(
             name="<:music:1140220553135931392> **Thông tin**",
@@ -72,24 +72,24 @@ class DefaultProgressbarSkin:
             inline=True
         )
 
-        config = f"┕ <:host:1140221179920138330> {player.ping}ms\n┕ <:volume:1140221293950668820> {player.volume}%"
+        config = f"> <:host:1140221179920138330> {player.ping}ms\n> <:volume:1140221293950668820> {player.volume}%"
 
         if player.loop:
-            config += f"\n┕ <:loop:1140220877401772092> `{'Bài hát' if player.loop == 'current' else 'Toàn bộ'}`"
+            config += f"\n> <:loop:1140220877401772092> `{'Bài hát' if player.loop == 'current' else 'Toàn bộ'}`"
 
         if player.nightcore:
-            config += f"\n┕ <:nightcore:1140227024108130314> Nightcore"
+            config += f"\n> <:nightcore:1140227024108130314> Nightcore"
 
         if player.current.autoplay:
-            config += f"\n┕ <:disc:1140220627781943339> "
+            config += f"\n> <:disc:1140220627781943339> "
             try: config += f" [Tự động phát]({player.current.info['extra']['related']['uri']})"
             except: config += "Tự động phát"
         
         if player.keep_connected:
-            config += f"\n┕ <:247:1140230869643169863> 24/7"
+            config += f"\n> <:247:1140230869643169863> 24/7"
 
         elif player.restrict_mode:
-            config += f"\n┕ 🔐 Hạn chế"
+            config += f"\n> 🔐 Hạn chế"
 
         embed.add_field(
             name=f"<:soundcloud:1140277420033843241> Node: **{player.node.identifier}**",
